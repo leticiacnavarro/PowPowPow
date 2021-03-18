@@ -64,13 +64,13 @@ public:
 
     void Iniciacao(GLfloat x, GLfloat y, GLfloat angulo, GLfloat raio, bool bot){
         
-        array<float,3> maoLutadorRGB = {1.02, 0.616, 0.648};
-        array<float,3> bracoLutadorRGB = {0.62,	0.872, 0.772};
-        array<float,3> cabecaLutadorRGB = {1.02, 0.732, 0.712};
+        array<float,3> maoLutadorRGB = {0.212f, 0.284f, 0.56f};
+        array<float,3> bracoLutadorRGB = {0.312f, 0.488f, 0.796f};
+        array<float,3> cabecaLutadorRGB =  {0.508,	0.712,	0.96};
 
-        array<float,3> maoBotRGB = {0.1, 0.5, 0.4};
-        array<float,3> bracoBotRGB = {0.1, 0.5, 0.4};
-        array<float,3> cabecaBotRGB = {0.1, 0.5, 0.4};
+        array<float,3> maoBotRGB = {0.016,	0.308, 0.164};
+        array<float,3> bracoBotRGB = {0.088, 0.512, 0.228};
+        array<float,3> cabecaBotRGB = {0.276, 0.764, 0.34};
 
         rCabeca = raio;
         gX = x;

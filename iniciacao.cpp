@@ -122,10 +122,13 @@ void Iniciacao::IniciaLutadores(Lutador &lutador, Lutador &bot)
     bot.Iniciacao(gXBot, gYBot, gGiroBot, rCabecaBot, true);
 }
 
-void Iniciacao::IniciaArena(GLint &widthArena, GLint &heightArena)
+void Iniciacao::IniciaArena(GLint &widthArena, GLint &heightArena, GLint &widthHalfArena, GLint &heightHalfarena)
 {
     widthArena = width;
     heightArena = height;
+
+    widthHalfArena = widthHalf;
+    heightHalfarena = heightHalf;
 
 }
 void Iniciacao::ProcessaArquivo(string nomeArquivo)

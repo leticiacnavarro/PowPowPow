@@ -57,7 +57,7 @@ public:
     
     void IniciaLutadores(Lutador &lutador, Lutador &bot);
 
-    void IniciaArena(GLint &widthArena, GLint &heightarena);
+    void IniciaArena(GLint &widthArena, GLint &heightarena, GLint &widthHalfArena, GLint &heightHalfarena);
 
 };
 

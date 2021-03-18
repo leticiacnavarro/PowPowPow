@@ -1,13 +1,15 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+
 #include <stdlib.h>
 #include <math.h>
-#include <stdio.h>
+
 #include "lutador.h"
 #include "iniciacao.h"
+
 #define INC_KEY 1
-#define INC_KEYIDLE 0.01
+#define INC_KEYIDLE 0.1
 
 //Key status
 int keyStatus[256];
@@ -21,6 +23,36 @@ Lutador bot;
 GLint Width;
 GLint Height;
 
+GLint pontoCentral;
+
+//Pontuacao
+GLint pontoLutador;
+GLint pontoBot;
+
+
+// Bot socando pow pow pow
+GLint distanciaSoco = 0;
+GLint distanciaSocoTotal = 100;
+GLint braco = 1;
+GLboolean parouDeSocar = true;
+int atingido = 0;
+static char str[1000];
+void * font = GLUT_BITMAP_9_BY_15;
+void ImprimePlacar(GLfloat x, GLfloat y)
+{
+glColor3f(1.0, 1.0, 1.0);
+//Cria a string a ser impressa
+char *tmpStr;
+sprintf(str, "Atingido: %d", atingido );
+//Define a posicao onde vai comecar a imprimir
+glRasterPos2f(x, y);
+//Imprime um caractere por vez
+tmpStr = str;
+while( *tmpStr ){
+glutBitmapCharacter(font, *tmpStr);
+tmpStr++;
+}
+}
 void renderScene(void)
 {
      // Clear the screen.
@@ -91,23 +123,122 @@ void init(void)
       
 }
 
+void movimentaBot(double inc)
+{
+    if(distanciaSoco <= 0)
+    {
+        distanciaSoco = 0;
+        parouDeSocar = true;
+    }
+
+    cout << distanciaSoco << endl;
+    cout << parouDeSocar << endl;
+
+
+    if(inc < 1){
+        inc = 1;
+    }
+    if(bot.VerificaSePode(inc, Width, Height, lutador.GetX(), lutador.GetY())){
+        bot.Anda(inc);
+    }
+    else
+    {
+        //distanciaSoco += inc;
+        bool acertou = bot.Soca(distanciaSocoTotal, distanciaSoco, braco, lutador.GetX(), lutador.GetY());
+        if(acertou)
+        {
+            if(parouDeSocar)
+            {
+                pontoLutador++;
+                parouDeSocar = false;
+            }
+            distanciaSoco -= inc;
+        }
+        else
+        {
+            if(parouDeSocar)
+            {
+                distanciaSoco += inc;
+            }
+            else
+            {
+                distanciaSoco -= inc;
+            }
+        }
+    }
+    bot.GiraSozinho(inc, lutador.GetX(), lutador.GetY());
+}
+
 void idle(void)
 {
+    static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);
+    GLdouble currentTime, timeDiference;
+    currentTime = glutGet(GLUT_ELAPSED_TIME);
+    timeDiference = currentTime - previousTime;
+    previousTime = currentTime;
 
-    double inc = INC_KEYIDLE;
+    double inc = INC_KEY * timeDiference * INC_KEYIDLE;
+
+    movimentaBot(inc);
 
     //Treat keyPress
+    if(keyStatus[(int)('w')])
+    {
+        if(lutador.VerificaSePode(inc, Width, Height, bot.GetX(), bot.GetY()))
+        {
+            lutador.Anda(inc);
+        }
+    }
+    if(keyStatus[(int)('s')])
+    {
+        if(lutador.VerificaSePode(-inc, Width, Height, bot.GetX(), bot.GetY()))
+        {
+            lutador.Anda(-inc);
+        }
+    }  
     if(keyStatus[(int)('a')])
     {
-
+        lutador.Gira(inc);
     }
     if(keyStatus[(int)('d')])
     {
-
+        lutador.Gira(-inc);
     }
-    
-    
     glutPostRedisplay();
+}
+
+void mouse(int button, int state, int x, int y)
+{
+    if(state == 0)
+    {
+        pontoCentral = x;
+    }
+    else
+    {
+        pontoCentral = 0;
+        lutador.ParaDeSocar();
+    }
+}
+
+void mouseArrasta(int x, int y)
+{
+    GLfloat distanciaPercorrida = abs(x - pontoCentral);
+
+    if(distanciaPercorrida > (Width/2))
+    {
+        distanciaPercorrida = (Width/2);
+    }
+  
+    if(x > pontoCentral){
+
+        lutador.Soca(Width/2, distanciaPercorrida, 1, bot.GetX(), bot.GetY());
+    }
+    else if(x < pontoCentral)
+    {
+        lutador.Soca(Width/2, distanciaPercorrida, 2, bot.GetX(), bot.GetY());
+
+  
+    }
 }
 
 void Inicializa()
@@ -135,7 +266,9 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(keyPress);
     glutIdleFunc(idle);
     glutKeyboardUpFunc(keyup);
-    
+    glutMotionFunc(mouseArrasta);
+    glutMouseFunc(mouse);
+   
     init();
  
     glutMainLoop();

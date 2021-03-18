@@ -37,19 +37,11 @@ void Lutador::DesenhaCabeca(GLfloat x, GLfloat y)
 {
 
     glPushMatrix();
-    if(jogador){
-        DesenhaCirc(rCabeca, 0.212,	0.52, 0.736);
+
+        DesenhaCirc(rCabeca, cabecaRGB[0], cabecaRGB[1], cabecaRGB[2]);
 
         glTranslatef(0, rCabeca, 0);
-        DesenhaCirc(rNariz, 0.212,	0.52, 0.736);       
-    }
-    else
-    {
-        DesenhaCirc(rCabeca, 0.472,	0.664, 0.332);
-
-        glTranslatef(0, rCabeca, 0);
-        DesenhaCirc(rNariz, 0.472,	0.664, 0.332);
-    }
+        DesenhaCirc(rNariz, cabecaRGB[0], cabecaRGB[1], cabecaRGB[2]);
 
 
     glPopMatrix();
@@ -64,16 +56,16 @@ void Lutador::DesenhaBraco(GLfloat x, GLfloat y, GLfloat theta1, GLfloat theta2)
     // BRAÇO
     glTranslatef(x, 0, 0);
     glRotatef(theta1, 0, 0, 1);
-    DesenhaRect(bracoHeight, bracoWidth, 0.472, 0.664, 0.332);
+    DesenhaRect(bracoHeight, bracoWidth, bracoRGB[0], bracoRGB[1], bracoRGB[2]);
  
     // ANTEBRAÇO 
     glTranslatef(0, bracoHeight, 0);
     glRotatef(theta2, 0, 0, 1);
-    DesenhaRect(bracoHeight, bracoWidth, 0.472,	0.664, 0.332);
+    DesenhaRect(bracoHeight, bracoWidth, bracoRGB[0], bracoRGB[1], bracoRGB[2]);
 
     // MAO
     glTranslatef(0, bracoHeight + rMao, 0);
-    DesenhaCirc(rMao, 0.656, 0.056,0.104);
+    DesenhaCirc(rMao, maoRGB[0], maoRGB[1], bracoRGB[2]);
 
     glPopMatrix();
 }
@@ -274,7 +266,7 @@ bool Lutador::Soca(GLfloat distanciaTotal, GLfloat distanciaPercorrida, GLint br
     
     GLfloat angulo1 = thetaInicial2 + ((90 * distanciaPercorrida)/distanciaTotal);
     GLfloat angulo2 = thetaInicial1 - ((60 * distanciaPercorrida)/distanciaTotal);
-
+    
     //DIREITO
     if(braco == 1){
         SocaBracoDireito(angulo1, angulo2);

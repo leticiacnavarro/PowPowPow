@@ -2,12 +2,15 @@
 #define	LUTADOR_H
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <array>
+#include <iostream>
 
-#define thetaInicial1 225
-#define thetaInicial2 135
+using namespace std;
 
-#define cores 135, 1, 2
+#define thetaInicial1 135
+#define thetaInicial2 225
 
+using namespace std;
 
 class Lutador
 {
@@ -32,8 +35,10 @@ class Lutador
     GLfloat gX;
     GLfloat gY;
 
-    // Controle
-    GLboolean jogador;
+    // Cores RGB
+    array<float,3> maoRGB; 
+    array<float,3> bracoRGB; 
+    array<float,3> cabecaRGB; 
 
 private:
     void DesenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B);
@@ -52,14 +57,21 @@ private:
 
     void SocaBracoEsquerdo(GLfloat angulo1, GLfloat angulo2);
 
-
 public:
 
     Lutador(){
     }
 
-    void Iniciacao(GLfloat x, GLfloat y, GLfloat angulo, GLfloat raio){
-    
+    void Iniciacao(GLfloat x, GLfloat y, GLfloat angulo, GLfloat raio, bool bot){
+        
+        array<float,3> maoLutadorRGB = {1.02, 0.616, 0.648};
+        array<float,3> bracoLutadorRGB = {0.62,	0.872, 0.772};
+        array<float,3> cabecaLutadorRGB = {1.02, 0.732, 0.712};
+
+        array<float,3> maoBotRGB = {0.1, 0.5, 0.4};
+        array<float,3> bracoBotRGB = {0.1, 0.5, 0.4};
+        array<float,3> cabecaBotRGB = {0.1, 0.5, 0.4};
+
         rCabeca = raio;
         gX = x;
         gY = y;
@@ -71,11 +83,24 @@ public:
         rNariz = rCabeca/3;
         rMao = rCabeca/2;
 
-        gThetaDireito1 = thetaInicial1;
-        gThetaDireito2 = thetaInicial2;
+        gThetaDireito1 = thetaInicial2;
+        gThetaDireito2 = thetaInicial1;
 
-        gThetaEsquerdo1 = thetaInicial2;
-        gThetaEsquerdo2 = thetaInicial1;
+        gThetaEsquerdo1 = thetaInicial1;
+        gThetaEsquerdo2 = thetaInicial2;
+
+        if(bot)
+        {
+            maoRGB = maoBotRGB;
+            cabecaRGB = cabecaBotRGB;
+            bracoRGB = bracoBotRGB;
+        }
+        else
+        {
+            maoRGB = maoLutadorRGB;
+            cabecaRGB = cabecaLutadorRGB;
+            bracoRGB = bracoLutadorRGB;
+        }  
 
     };
 

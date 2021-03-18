@@ -113,18 +113,13 @@ void Iniciacao::ProcessaLutadores(TiXmlElement *lutador1, TiXmlElement *lutador2
         rCabecaBot = atoi(lutador2->Attribute("r"));
     } 
 
-    cout << "Y " << gYBot << endl;
-    cout << "height " << heightHalf << endl;
-
-
     CalculaCoeficienteCabecas();       
 }
 
 void Iniciacao::IniciaLutadores(Lutador &lutador, Lutador &bot)
-{
-    
-    lutador.Iniciacao(gXLutador, gYLutador, gGiroLutador, rCabecaLutador);
-    bot.Iniciacao(gXBot, gYBot, gGiroBot, rCabecaBot);
+{    
+    lutador.Iniciacao(gXLutador, gYLutador, gGiroLutador, rCabecaLutador, false);
+    bot.Iniciacao(gXBot, gYBot, gGiroBot, rCabecaBot, true);
 }
 
 void Iniciacao::IniciaArena(GLint &widthArena, GLint &heightArena)

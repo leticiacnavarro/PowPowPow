@@ -20,7 +20,7 @@ void DesenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B)
 void Menu::DesenhaTexto(GLfloat x, GLfloat y, char *tmpStr)
 {
     glRasterPos2f(x, y);
-    glColor3f(1.0, 1, 1.0);
+    glColor3f(0, 0, 0);
 
     while(*tmpStr){
         glutBitmapCharacter(fonte, *tmpStr);
@@ -30,20 +30,17 @@ void Menu::DesenhaTexto(GLfloat x, GLfloat y, char *tmpStr)
 
 void Menu::DesenhaPlacar(GLint pontosLutador, GLint pontosBot)
 {
-    glPushMatrix();
         static char str[1000];
         char *temp;
         sprintf(str, "%d / %d", pontosLutador, pontosBot);
         temp = str;
 
         DesenhaTexto(-(gX/2) + 10, - (gY/2) + 10, temp);
-    glPopMatrix();
 
 }
 
 void Menu::DesenhaFinalJogo(bool ganhou)
 {
-    glPushMatrix();
         static char str[1000];
         char *temp;
         if(ganhou)
@@ -57,6 +54,5 @@ void Menu::DesenhaFinalJogo(bool ganhou)
         temp = str;
 
         DesenhaTexto(0, 0, temp);
-    glPopMatrix();
 
 }

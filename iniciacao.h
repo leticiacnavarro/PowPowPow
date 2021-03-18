@@ -47,6 +47,8 @@ private:
   
     void ProcessaArquivo(string nomeArquivo);
 
+    void CalculaCoeficienteCabecas();
+
 public:
     Iniciacao()
     {

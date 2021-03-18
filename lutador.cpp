@@ -1,6 +1,5 @@
 #include "lutador.h"
 #include <math.h>
-#include <stdio.h>
 
 void Lutador::DesenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B)
 {
@@ -17,7 +16,7 @@ void Lutador::DesenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLflo
 
 void Lutador::DesenhaCirc(GLint radius, GLfloat R, GLfloat G, GLfloat B)
 {
-    int pts = 20;
+    int pts = 50;
     glColor3f (R, G, B);
 
     for(unsigned int i = 0; i <= pts; ++i ){

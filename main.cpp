@@ -80,8 +80,8 @@ void init(void)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
  
     glMatrixMode(GL_PROJECTION); // Select the projection matrix    
-    glOrtho(-(Width),     // X coordinate of left edge             
-            (Width),     // X coordinate of right edge            
+    glOrtho(-(Width/2),     // X coordinate of left edge             
+            (Width/2),     // X coordinate of right edge            
             -(Height/2),     // Y coordinate of bottom edge             
             (Height/2),     // Y coordinate of top edge             
             -100,     // Z coordinate of the “near” plane            

@@ -65,8 +65,8 @@ public:
         gY = y;
         gGiro = angulo;
 
-        bracoHeight = rCabeca * 2;
-        bracoWidth = rCabeca/4;
+        bracoHeight = rCabeca * 1.5;
+        bracoWidth = rCabeca/3;
 
         rNariz = rCabeca/3;
         rMao = rCabeca/2;

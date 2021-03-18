@@ -308,15 +308,15 @@ GLfloat Lutador::GetY(){
     return gY;
 }
 
-GLfloat Lutador::GetXColisao(){
-    GLfloat colisao = gX + (rCabeca * 3);
-    return gX;
-}
+// GLfloat Lutador::GetXColisao(){
+//     GLfloat colisao = gX + (rCabeca * 3);
+//     return gX;
+// }
 
-GLfloat Lutador::GetYColisao(){
-    GLfloat colisao = gY + (rCabeca * 3);
-    return gY;
-}
+// GLfloat Lutador::GetYColisao(){
+//     GLfloat colisao = gY + (rCabeca * 3);
+//     return gY;
+// }
 
 GLfloat CalculaCoeficienteCabecas(GLfloat gXLutador, GLfloat gYLutador, GLfloat gX, GLfloat gY){
 

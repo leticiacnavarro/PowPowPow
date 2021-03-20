@@ -36,8 +36,9 @@ GLint pontoLutador;
 GLint pontoBot;
 
 
-//Lutador Socando
+//Lutador Socando pow pow pow
 GLboolean parouDeSocarLutador = true;
+GLboolean botaoCerto;
 
 
 // Bot socando pow pow pow
@@ -45,6 +46,10 @@ GLint distanciaSoco = 0;
 GLint distanciaSocoTotal = 25;
 GLint braco = 1;
 GLboolean parouDeSocarBot = true;
+
+// Tipo Jogo
+
+bool modoTreino;
 
 
 void renderScene(void)
@@ -178,6 +183,28 @@ void movimentaBot(double inc)
     bot.GiraSozinho(inc, lutador.GetX(), lutador.GetY());
 }
 
+bool VerificaSeEstaAndando()
+{
+    if(keyStatus[(int)('w')])
+    {
+        return false;
+    }
+    if(keyStatus[(int)('s')])
+    {
+        return false;
+    }  
+    if(keyStatus[(int)('a')])
+    {            
+        return false;
+    }
+    if(keyStatus[(int)('d')])
+    {
+        return false;
+    }
+
+    return true;
+} 
+
 void idle(void)
 {
     if(pontoLutador < 10 && pontoBot < 10)
@@ -192,29 +219,42 @@ void idle(void)
 
     //    for(int i = 0; i < 90000000; i++);
 
-        movimentaBot(inc);
+        if(!modoTreino)
+        {
+           movimentaBot(inc);
+        }
 
         //Treat keyPress
         if(keyStatus[(int)('w')])
         {
             if(lutador.VerificaSePode(inc, Width, Height, bot.GetX(), bot.GetY()))
             {
+                        lutador.ParaDeSocar();
+
                 lutador.Anda(inc);
+
             }
         }
         if(keyStatus[(int)('s')])
         {
             if(lutador.VerificaSePode(-inc, Width, Height, bot.GetX(), bot.GetY()))
             {
+                        lutador.ParaDeSocar();
+
                 lutador.Anda(-inc);
+
             }
         }  
         if(keyStatus[(int)('a')])
-        {
+        {    
+                    lutador.ParaDeSocar();
+        
             lutador.Gira(inc);
         }
         if(keyStatus[(int)('d')])
         {
+                    lutador.ParaDeSocar();
+
             lutador.Gira(-inc);
         }
         glutPostRedisplay();
@@ -223,12 +263,20 @@ void idle(void)
 
 void mouse(int button, int state, int x, int y)
 {
+
+
     if(state == 0)
     {
         pontoCentral = x;
+        if(button == 0)
+        {
+            botaoCerto = true;
+        }
     }
     else
     {
+        botaoCerto = false;
+
         pontoCentral = 0;
         lutador.ParaDeSocar();
     }
@@ -236,52 +284,62 @@ void mouse(int button, int state, int x, int y)
 
 void mouseArrasta(int x, int y)
 {
-    GLfloat distanciaPercorrida = abs(x - pontoCentral);
-
-    if(distanciaPercorrida > WidthHalf)
+    if(botaoCerto)
     {
-        distanciaPercorrida = WidthHalf;
-    }
-  
-    if(x > pontoCentral){
-
-        bool acertou = lutador.Soca(WidthHalf, distanciaPercorrida, 1, bot.GetX(), bot.GetY());
-        if(acertou)
+        if(VerificaSeEstaAndando())
         {
-            if(parouDeSocarLutador)
+        GLfloat distanciaPercorrida = abs(x - pontoCentral);
+
+        if(distanciaPercorrida > WidthHalf)
+        {
+            distanciaPercorrida = WidthHalf;
+        }
+        
+        if(x > pontoCentral){
+
+            bool acertou = lutador.Soca(WidthHalf, distanciaPercorrida, 1, bot.GetX(), bot.GetY());
+            if(acertou)
             {
-                pontoLutador++;
-                parouDeSocarLutador = false;
+                if(parouDeSocarLutador)
+                {
+                    pontoLutador++;
+                    parouDeSocarLutador = false;
+                }
+            }
+            else{
+                parouDeSocarLutador = true;
             }
         }
-        else{
-            parouDeSocarLutador = true;
-        }
-    }
-    else if(x < pontoCentral)
-    {
-        bool acertou = lutador.Soca(WidthHalf, distanciaPercorrida, 2, bot.GetX(), bot.GetY());
-        if(acertou)
+        else if(x < pontoCentral)
         {
-            if(parouDeSocarLutador)
+            bool acertou = lutador.Soca(WidthHalf, distanciaPercorrida, 2, bot.GetX(), bot.GetY());
+            if(acertou)
             {
-                pontoLutador++;
-                parouDeSocarLutador = false;
+                if(parouDeSocarLutador)
+                {
+                    pontoLutador++;
+                    parouDeSocarLutador = false;
+                }
             }
+            else{
+                parouDeSocarLutador = true;
+            }
+    
         }
-        else{
-            parouDeSocarLutador = true;
         }
-  
     }
+
+
 }
 
 void Inicializa()
 {
     iniciacao.IniciaArena(Width, Height, WidthHalf, HeightHalf);
     iniciacao.IniciaLutadores(lutador, bot);
+    iniciacao.TipoJogo(modoTreino);
 
-    menu.Iniciacao(Width, Height);    
+    menu.Iniciacao(Width, Height);   
+     
 }
 
 int main(int argc, char *argv[])

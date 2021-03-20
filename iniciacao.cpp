@@ -69,6 +69,23 @@ void Iniciacao::CalculaCoeficienteCabecas(){
 
 }
 
+void Iniciacao::TipoJogo(bool &modoTreino)
+{
+    string tipoJogo;
+    cout << "Modo treino? (T). Ou digita qualquer outra coisa para jogar com o bot perseguidor. " << endl;
+    cin >> tipoJogo; 
+
+    if(tipoJogo == "T" || tipoJogo == "t")
+    {
+        modoTreino = true;
+    }
+    else
+    {
+        modoTreino = false;
+    }
+
+} 
+
 string Iniciacao::ObtemNomeArquivo()
 {
     string nomeArquivo;
@@ -85,31 +102,35 @@ void Iniciacao::ProcessaArena(TiXmlElement *arena)
     width = atoi(arena->Attribute("width"));
     height = atoi(arena->Attribute("height"));    
 
+    xArena = atoi(arena->Attribute("x"));
+    yArena = atoi(arena->Attribute("y"));
+
     widthHalf = width/2;
     heightHalf = height/2;
+
 }
 
 void Iniciacao::ProcessaLutadores(TiXmlElement *lutador1, TiXmlElement *lutador2)
 {    
     if(strcmp (lutador1->Attribute("fill"),"red") == 0)
     {
-        gXLutador = atoi(lutador2->Attribute("cx")) - widthHalf;
-        gYLutador = - atoi(lutador2->Attribute("cy")) + heightHalf;
+        gXLutador = (atoi(lutador2->Attribute("cx")) - xArena ) - widthHalf;
+        gYLutador = - (atoi(lutador2->Attribute("cy")) - yArena )+ heightHalf;
         rCabecaLutador = atoi(lutador2->Attribute("r"));
 
         
-        gXBot = atoi(lutador1->Attribute("cx")) - widthHalf;
-        gYBot = - atoi(lutador1->Attribute("cy")) + heightHalf;
+        gXBot = (atoi(lutador1->Attribute("cx")) - xArena ) - widthHalf;
+        gYBot = - (atoi(lutador1->Attribute("cy"))- yArena ) + heightHalf;
         rCabecaBot = atoi(lutador1->Attribute("r"));
     }
     else if(strcmp (lutador2->Attribute("fill"),"red") == 0)
     {
-        gXLutador = atoi(lutador1->Attribute("cx")) - widthHalf;
-        gYLutador = - atoi(lutador1->Attribute("cy")) + heightHalf;
+        gXLutador = (atoi(lutador1->Attribute("cx")) - xArena ) - widthHalf;
+        gYLutador = - (atoi(lutador1->Attribute("cy"))- yArena ) + heightHalf;
         rCabecaLutador = atoi(lutador1->Attribute("r"));
 
-        gXBot = atoi(lutador2->Attribute("cx")) - widthHalf;
-        gYBot = - atoi(lutador2->Attribute("cy")) + heightHalf;
+        gXBot = (atoi(lutador2->Attribute("cx")) - xArena ) - widthHalf;
+        gYBot = - (atoi(lutador2->Attribute("cy"))- yArena ) + heightHalf;
         rCabecaBot = atoi(lutador2->Attribute("r"));
     } 
 
@@ -131,10 +152,11 @@ void Iniciacao::IniciaArena(GLint &widthArena, GLint &heightArena, GLint &widthH
     heightHalfarena = heightHalf;
 
 }
-void Iniciacao::ProcessaArquivo(string nomeArquivo)
+bool Iniciacao::ProcessaArquivo(string nomeArquivo)
 {
-    // /home/leticia/Downloads/arena_1.svg
-    nomeArquivo = "/home/leticia/Downloads/arena_3.svg";
+    // /home/leticia/Documents/arena_3.svg
+
+
     // Passando de string pra char array pq se não dá ruim
     int n = nomeArquivo.length(); 
     char char_array[n + 1]; 
@@ -171,11 +193,12 @@ void Iniciacao::ProcessaArquivo(string nomeArquivo)
             cout << "Deu bom abrindo o arquivo!" << endl;
 
         }
-
+        return true;
 	}
 	else
 	{
         cout << "Vish, deu ruim abrindo esse SVG D: \n" << endl;
+        return false;
 	}
 
 }

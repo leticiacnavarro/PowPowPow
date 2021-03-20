@@ -20,9 +20,9 @@ void DesenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B)
 void Menu::DesenhaTexto(GLfloat x, GLfloat y, char *tmpStr)
 {
     glRasterPos2f(x, y);
-    glColor3f(0, 0, 0);
 
     while(*tmpStr){
+        glColor3f(0, 0, 0);
         glutBitmapCharacter(fonte, *tmpStr);
         tmpStr++;
     }
@@ -45,11 +45,11 @@ void Menu::DesenhaFinalJogo(bool ganhou)
         char *temp;
         if(ganhou)
         {
-           sprintf(str, "VOCE GANHOU!!");
+           sprintf(str, "JOGADOR GANHOU!!");
         }
         else
         {
-           sprintf(str, "VOCE PERDEU TROXA!!");
+           sprintf(str, "BOT GANHOU!!");
         }
         temp = str;
 

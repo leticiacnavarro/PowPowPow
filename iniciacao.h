@@ -35,6 +35,8 @@ class Iniciacao
     GLfloat widthHalf;
     GLfloat heightHalf;
 
+    GLfloat xArena;
+    GLfloat yArena;
 
 private:
     void ProcessaArena(TiXmlElement *arena);
@@ -45,19 +47,24 @@ private:
  
     string ObtemNomeArquivo();
   
-    void ProcessaArquivo(string nomeArquivo);
+    bool ProcessaArquivo(string nomeArquivo);
 
     void CalculaCoeficienteCabecas();
 
 public:
     Iniciacao()
     {
-        ProcessaArquivo(ObtemNomeArquivo());
+        if(!ProcessaArquivo(ObtemNomeArquivo()))
+        {
+            exit(0);
+        }
     }
     
     void IniciaLutadores(Lutador &lutador, Lutador &bot);
 
     void IniciaArena(GLint &widthArena, GLint &heightarena, GLint &widthHalfArena, GLint &heightHalfarena);
+
+    void TipoJogo(bool &modoTreino);
 
 };
 

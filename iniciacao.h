@@ -47,19 +47,13 @@ private:
  
     string ObtemNomeArquivo();
   
-    bool ProcessaArquivo(string nomeArquivo);
 
     void CalculaCoeficienteCabecas();
 
 public:
-    Iniciacao()
-    {
-        if(!ProcessaArquivo(ObtemNomeArquivo()))
-        {
-            exit(0);
-        }
-    }
-    
+    Iniciacao(){}
+    bool ProcessaArquivo(char* nomeArquivo);
+
     void IniciaLutadores(Lutador &lutador, Lutador &bot);
 
     void IniciaArena(GLint &widthArena, GLint &heightarena, GLint &widthHalfArena, GLint &heightHalfarena);

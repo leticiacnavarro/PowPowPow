@@ -332,8 +332,14 @@ void mouseArrasta(int x, int y)
 
 }
 
-void Inicializa()
+void Inicializa(char *caminhoArquivo)
 {
+    if(!iniciacao.ProcessaArquivo(caminhoArquivo))
+    {
+        exit(0);
+    }
+
+    
     iniciacao.IniciaArena(Width, Height, WidthHalf, HeightHalf);
     iniciacao.IniciaLutadores(lutador, bot);
     iniciacao.TipoJogo(modoTreino);
@@ -349,7 +355,7 @@ int main(int argc, char *argv[])
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     
-    Inicializa();
+    Inicializa(argv[1]);
 
     // Create the window.
     glutInitWindowSize(Width, Height);

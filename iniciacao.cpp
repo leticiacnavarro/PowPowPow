@@ -152,18 +152,18 @@ void Iniciacao::IniciaArena(GLint &widthArena, GLint &heightArena, GLint &widthH
     heightHalfarena = heightHalf;
 
 }
-bool Iniciacao::ProcessaArquivo(string nomeArquivo)
+bool Iniciacao::ProcessaArquivo(char* nomeArquivo)
 {
     // /home/leticia/Documents/arena_3.svg
 
 
     // Passando de string pra char array pq se não dá ruim
-    int n = nomeArquivo.length(); 
-    char char_array[n + 1]; 
-    strcpy(char_array, nomeArquivo.c_str());
+    // int n = nomeArquivo.length(); 
+    // char char_array[n + 1]; 
+    // strcpy(char_array, nomeArquivo.c_str());
 
     // Abrindo o arquivo
-    TiXmlDocument doc(char_array);
+    TiXmlDocument doc(nomeArquivo);
 
     TiXmlElement *svg; 
     TiXmlElement *rect;
